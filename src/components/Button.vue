@@ -1,8 +1,15 @@
-<!-- AppButton.vue -->
+<!-- Button.vue -->
 <template>
   <button
     class="app-btn"
-    :style="{ backgroundColor: color_boton,  color: color_titulo }"
+    :style="{
+      backgroundColor: color_boton,
+      color: color_titulo,
+      width: ancho,
+      height: alto,
+      fontSize: tamano_texto,
+      borderRadius: bordes
+    }"
     @click="$emit('click')"
   >
     {{ titulo }}
@@ -23,6 +30,22 @@ defineProps({
     type: String,
     default: '#b81933'
   },
+  ancho: {
+    type: String,
+    default: 'auto'
+  },
+  alto: {
+    type: String,
+    default: 'auto'
+  },
+  tamano_texto: {
+    type: String,
+    default: '1rem'
+  },
+  bordes: {
+    type: String,
+    default: '8px'
+  },
 })
 
 defineEmits(['click'])
@@ -32,10 +55,9 @@ defineEmits(['click'])
 .app-btn {
   padding: 12px 24px;
   border: none;
-  border-radius: 8px;
-  color: white;
   font-weight: 600;
   cursor: pointer;
+  box-sizing: border-box;
   transition: opacity 0.2s;
 }
 .app-btn:hover {
