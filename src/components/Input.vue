@@ -1,4 +1,3 @@
-<!-- Input.vue -->
 <template>
   <input
     class="app-input"
@@ -12,6 +11,9 @@
       borderRadius: bordes
     }"
     :placeholder="titulo"
+    :type="tipo"
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
   />
 </template>
 
@@ -25,7 +27,11 @@ defineProps({
   tamano_texto: { type: String, default: '1rem' },
   alineado: { type: String, default: 'left' },
   bordes: { type: String, default: '10px' },
+  modelValue: { type: String, default: '' },   // <- NUEVO: para v-model
+  tipo: { type: String, default: 'text' },      // <- NUEVO: para password
 })
+
+defineEmits(['update:modelValue'])   // <- NUEVO: emite lo que se escribe
 </script>
 
 <style scoped>

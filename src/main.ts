@@ -1,6 +1,8 @@
-import './assets/main.css'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router/routes.ts'; 
+import './assets/main.css';   // o la ruta donde esté tu main.css
 
-import { createApp } from 'vue'
-import Login from './Login.vue'
-
-createApp(Login).mount('#login')
+createApp(App)
+  .use(router)                    
+  .mount('#app');
