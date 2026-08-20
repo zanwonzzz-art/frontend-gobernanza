@@ -72,8 +72,8 @@ async function verify() {
     if (!res.ok) {
       abrirAlert(
         'Error de verificación',
-        data.message || 'Código incorrecto', 
-        data.code || '',                        
+        data.msg?.msg,
+        data.msg?.code || '',                     
       );
       return;
     }

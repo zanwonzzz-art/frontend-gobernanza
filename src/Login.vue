@@ -2,8 +2,10 @@
 import Button from './components/Button.vue';
 import Input from './components/Input.vue';
 import trace from '@/assets/trace.png'
+import Alert from './components/Alert.vue';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import cerrar from '@/assets/cerrar.png'
 
 const route = useRoute();
 const router = useRouter();
@@ -14,6 +16,18 @@ const error = ref('');
 const uid = ref('');
 
 const IDP_URL = 'http://localhost:3000';
+
+const mostrarAlert = ref(false);
+const alertData = ref({
+  titulo_principal: '',
+  descripcion: '',
+  codigo: '',
+});
+
+function abrirAlert(titulo: string, descripcion: string, codigo: string) {
+  alertData.value = { titulo_principal: titulo, descripcion, codigo };
+  mostrarAlert.value = true;
+}
 
 // Al cargar, leemos el uid de la URL (?uid=abc123)
 onMounted(() => {
@@ -41,7 +55,11 @@ async function login() {
 
     if (!res.ok) {
       // El IdP respondió con error (401, etc.)
-      error.value = data.error || 'Error al iniciar sesión';
+      abrirAlert(
+        'Credenciales Incorrectas',
+        data.msg?.msg,
+        data.msg?.code || '',                     
+      );
       return;
     }
 
@@ -51,7 +69,7 @@ async function login() {
       router.push(`/mfa?uid=${uid.value}`);
     }
   } catch (e) {
-    error.value = 'No se pudo conectar con el servidor';
+    abrirAlert('Error de conexión', 'La solicitud tardó demasiado tiempo, por favor intenta nuevamente', 'SRV_003');
   }
 }
 </script>
@@ -91,10 +109,37 @@ async function login() {
         @click="login"
       />
     </div>
+
+    <div v-if="mostrarAlert" class="alert-overlay" @click.self="mostrarAlert = false">
+      <Alert
+        :titulo_principal="alertData.titulo_principal"
+        :descripcion="alertData.descripcion"
+        :codigo="alertData.codigo"
+        :imagen="cerrar"
+        titulo="Entendido"
+        color_boton="#b81933"
+        color_titulo="#FFFFFF"
+        @click="mostrarAlert = false"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
+
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
 .login-container {
   min-height: 100vh;
   width: 100%;
