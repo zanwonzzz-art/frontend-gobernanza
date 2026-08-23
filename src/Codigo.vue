@@ -36,7 +36,7 @@ async function onDigito(valor: string, i: number) {
   digitos.value = [...digitos.value];
 }
 
-const IDP_URL = 'http://localhost:3000';
+const IDP_URL = import.meta.env.VITE_IDP_URL;;
 
 onMounted(() => {
   uid.value = (route.query.uid as string) || '';

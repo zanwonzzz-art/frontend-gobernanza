@@ -15,7 +15,7 @@ const password = ref('');
 const error = ref('');
 const uid = ref('');
 
-const IDP_URL = 'http://localhost:3000';
+const IDP_URL = import.meta.env.VITE_IDP_URL;;
 
 const mostrarAlert = ref(false);
 const alertData = ref({
